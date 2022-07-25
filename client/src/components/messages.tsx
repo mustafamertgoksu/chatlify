@@ -1,21 +1,21 @@
 import { useEffect, useRef } from 'react';
-import EVENTS from '../socket/';
 import { useSocket } from '../hooks/useSocket';
-import styles from '../styles/Messages.module.css';
+import styles from '../styles/messages.module.css';
 
 function MessagesContainer() {
   const { socket, messages, roomId, username, setMessages } = useSocket();
   const newMessageRef = useRef(null);
   const messageEndRef = useRef(null);
 
-  function handleSendMessage() {
+  const handleSendMessage = (e) => {
+    e.preventDefault();
     const message = newMessageRef.current.value;
 
     if (!String(message).trim()) {
       return;
     }
 
-    socket.emit(EVENTS.CLIENT.SEND_ROOM_MESSAGE, { roomId, message, username });
+    socket.emit('SEND_ROOM_MESSAGE', { roomId, message, username });
 
     const date = new Date();
 
@@ -29,7 +29,7 @@ function MessagesContainer() {
     ]);
 
     newMessageRef.current.value = '';
-  }
+  };
 
   useEffect(() => {
     messageEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -41,28 +41,26 @@ function MessagesContainer() {
 
   return (
     <div className={styles.wrapper}>
-      <div className={styles.messageList}>
+      <div className={styles.messages}>
         {messages.map(({ message, username, time }, index) => {
           return (
-            <div key={index} className={styles.message}>
-              <div key={index} className={styles.messageInner}>
-                <span className={styles.messageSender}>
+            <div className={styles.messageBox} key={index}>
+              <div key={index}>
+                <span className={styles.userTime}>
                   {username} - {time}
                 </span>
-                <span className={styles.messageBody}>{message}</span>
+                <span className={styles.message}>{message}</span>
               </div>
             </div>
           );
         })}
         <div ref={messageEndRef} />
       </div>
-      <div className={styles.messageBox}>
-        <textarea
-          rows={1}
-          placeholder="Tell us what you are thinking"
-          ref={newMessageRef}
-        />
-        <button onClick={handleSendMessage}>SEND</button>
+      <div className={styles.bottomBar}>
+        <form onSubmit={handleSendMessage}>
+          <input placeholder="Type your message" ref={newMessageRef} />
+          <button onClick={handleSendMessage}>Send</button>
+        </form>
       </div>
     </div>
   );

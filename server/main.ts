@@ -3,7 +3,7 @@ import { createServer } from 'http';
 import { Server } from 'socket.io';
 import config from 'config';
 
-import socket from './src/socket';
+import socket from './socket';
 
 const port = config.get<number>('port');
 const host = config.get<string>('host');

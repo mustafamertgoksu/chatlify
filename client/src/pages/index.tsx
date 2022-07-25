@@ -1,16 +1,15 @@
 import Head from 'next/head';
-import styles from '../styles/Home.module.css';
 import { useSocket } from '../hooks/useSocket';
-
-import RoomsContainer from '../components/rooms';
-import MessagesContainer from '../components/messages';
+import Messages from '../components/messages';
+import Sidebar from '../components/sidebar';
 import { useEffect, useRef } from 'react';
+import styles from '../styles/home.module.css';
 
 export default function Home() {
   const { socket, username, setUsername } = useSocket();
   const usernameRef = useRef(null);
 
-  function handleSetUsername() {
+  const handleSetUsername = () => {
     const value = usernameRef.current.value;
     if (!value) {
       return;
@@ -19,7 +18,7 @@ export default function Home() {
     setUsername(value);
 
     localStorage.setItem('username', value);
-  }
+  };
 
   useEffect(() => {
     if (usernameRef)
@@ -27,25 +26,32 @@ export default function Home() {
   }, []);
 
   return (
-    <div>
+    <div className={styles.home}>
       <Head>
         <title>Chatlify | Chat App</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
       {!username && (
-        <div className={styles.usernameWrapper}>
-          <div className={styles.usernameInner}>
-            <input placeholder="Username" ref={usernameRef} />
-            <button className="cta" onClick={handleSetUsername}>
-              START
+        <div>
+          <h1 className={styles.mainTitle}>
+            Chatlify | Lets chat with your friends
+          </h1>
+          <div className={styles.userSection}>
+            <input
+              className={styles.username}
+              placeholder="Username"
+              ref={usernameRef}
+            />
+            <button className={styles.start} onClick={handleSetUsername}>
+              Start
             </button>
           </div>
         </div>
       )}
       {username && (
-        <div className={styles.container}>
-          <RoomsContainer />
-          <MessagesContainer />
+        <div className={styles.chatContainer}>
+          <Sidebar />
+          <Messages />
         </div>
       )}
     </div>

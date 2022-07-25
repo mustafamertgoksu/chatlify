@@ -1,62 +1,63 @@
 .wrapper {
-  min-height: 100vh;
-  height: 100vh;
-  width: calc(100% - 200px);
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 
-.messageList {
-  flex: 1;
-  overflow-y: scroll;
-  padding: 1rem;
+.messages {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 }
 
-.messageList ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
 
 .messageBox {
-  display: flex;
-  width: 100%;
-  background-color: rgba(256, 256, 256, 0.8);
+  background-color: #222;
+  margin: 1rem 0;
   padding: 1rem;
 }
 
-.messageBox textarea {
-  flex: 1;
-  padding: 1rem;
-  font-size: 1.25rem;
-}
-
-.messageBox button {
-  margin-left: 0.5rem;
-  background-color: blueviolet;
-  font-size: 1.25rem;
+.userTime {
+  color: #dbdbdb;
 }
 
 .message {
-  margin-bottom: 1rem;
-  padding: 1rem;
-  border-radius: 8px;
-  border: solid 2px #333;
-  font-size: 1.25rem;
-  background-color: rgba(256, 256, 256, 0.8);
+  color: lightblue;
+  margin: 0 0.2rem;
+  text-transform: uppercase;
 }
 
-.messageInner {
+.bottomBar {
   display: flex;
-  flex-direction: column;
-  margin-bottom: 1rem;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  background-color: #222;
 }
 
-.messageSender {
-  color: #333;
-  font-size: 0.75rem;
+.bottomBar input {
+  border: none;
+  background-color: #fff;
+  color: #222;
+  font-size: 1.3rem;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  padding: 0.5rem;
+  margin-right: 0.2rem;
 }
 
-.messageBody {
-  word-wrap: break-word;
+.bottomBar button {
+  border: none;
+  background-color: #222;
+  color: #fff;
+  font-size: 1.3rem;
+  font-family: "Roboto", sans-serif;
+  font-weight: 300;
+  padding: 0.5rem;
+  cursor: pointer;
 }

@@ -1,41 +1,38 @@
 import { useRef } from 'react';
-import EVENTS from '../socket/';
 import { useSocket } from '../hooks/useSocket';
-import styles from '../styles/Room.module.css';
+import styles from '../styles/room.module.css';
 
-function RoomsContainer() {
+function Rooms() {
   const { socket, roomId, rooms } = useSocket();
   const newRoomRef = useRef(null);
 
-  function handleCreateRoom() {
-    //get the room name
+  const handleCreateRoom = () => {
+    
     const roomName = newRoomRef.current.value || '';
 
     if (!String(roomName).trim()) return;
 
-    // emit room created event
-    socket.emit(EVENTS.CLIENT.CREATE_ROOM, { roomName });
+    socket.emit('CREATE_ROOM', { roomName });
 
-    // set room name input to empty string
     newRoomRef.current.value = '';
   }
 
-  function handleJoinRoom(key) {
+  const handleJoinRoom = (key) => {
     if (key === roomId) return;
 
-    socket.emit(EVENTS.CLIENT.JOIN_ROOM, key);
+    socket.emit('JOIN_ROOM', key);
   }
 
   return (
-    <nav className={styles.wrapper}>
-      <div className={styles.createRoomWrapper}>
-        <input ref={newRoomRef} placeholder="Room name" />
-        <button className="cta" onClick={handleCreateRoom}>
-          CREATE ROOM
+    <nav>
+      <div className={styles.room}>
+        <input className={styles.roomInput} ref={newRoomRef} placeholder="Room name" />
+        <button className={styles.create} onClick={handleCreateRoom}>
+          Create Room
         </button>
       </div>
 
-      <ul className={styles.roomList}>
+      <ul className={styles.list}>
         {Object.keys(rooms).map((key) => {
           return (
             <div key={key}>
@@ -54,4 +51,4 @@ function RoomsContainer() {
   );
 }
 
-export default RoomsContainer;
+export default Rooms;
